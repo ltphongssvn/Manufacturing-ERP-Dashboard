@@ -67,3 +67,45 @@ function PlantView({ plant, sensorReadings }) {
 - Without useMemo: 10k+ calculations per render
 - With useMemo: Only recalculates when sensorReadings change
 - useCallback prevents function identity changes
+
+### Dashboard.tsx
+**Purpose:** Main ERP dashboard integrating all features
+
+**Features:**
+- 15 global plants with real-time data
+- 10,000+ sensor readings/second simulation
+- useReducer for complex state (plants, sensors, alerts)
+- useMemo for expensive calculations (stats aggregation)
+- useCallback for event handlers (prevent re-renders)
+
+**State Management:**
+- `useDashboardReducer` - Global state hook
+- Interval updates every 100ms (10k sensors/sec)
+- Automatic alert generation from critical readings
+
+**Optimizations:**
+- `selectedPlant` - Memoized plant lookup
+- `globalStats` - Memoized aggregation across all plants
+- `handlePlantSelect/LineSelect/AcknowledgeAlert` - Stable callbacks
+
+**UI Sections:**
+- Global stats (plants, lines, sensors, alerts)
+- Active alerts with acknowledgment
+- Plant selection buttons
+- Production line grid (3 columns)
+
+**Data Flow:**
+1. Mount: Load 15 plants
+2. Interval: Generate 1000 readings per 100ms
+3. Dispatch readings to reducer
+4. Generate alerts from critical readings
+5. UI updates via memoized selectors
+
+## Usage
+```typescript
+import { Dashboard } from './components/Dashboard';
+
+function App() {
+  return <Dashboard />;
+}
+```
