@@ -1,0 +1,23 @@
+# /Manufacturing-ERP-Dashboard/.pre-commit-config.yaml
+repos:
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+        exclude: .*\.lock|.*\.log|node_modules/
+  - repo: local
+    hooks:
+      - id: auto-clean-untracked
+        name: Auto Move Untracked Files
+        entry: ./git-clean-commit.sh
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+      - id: verify-selective-staging
+        name: Verify Selective Staging
+        entry: bash
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+        args: [-c, 'echo "Staged files:" && git diff --cached --name-only']
