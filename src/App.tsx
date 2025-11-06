@@ -1,12 +1,9 @@
-// ~/code/ltphongssvn/Manufacturing-ERP-Dashboard/src/App.tsx
+// /src/App.tsx
+
+import { Dashboard } from './components/Dashboard';
+
 function App() {
-  return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-blue-600">
-        Tailwind CSS is working!
-      </h1>
-    </div>
-  )
+  return <Dashboard />;
 }
 
-export default App
+export default App;
