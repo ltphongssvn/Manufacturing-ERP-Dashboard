@@ -196,3 +196,47 @@ git commit --no-verify -m "msg"
 ```bash
 git reset --soft HEAD~1
 ```
+
+## 6. Documentation Workflow (Before Merging)
+
+**REQUIRED before merging feature branches:**
+````bash
+# On feature branch, create README in code directory
+cat > src/component-name/README.md << 'DOCS'
+# Component/Module Name
+# /src/component-name/README.md
+
+## Overview
+Brief description
+
+## Files
+- file1.ts: Purpose
+- file2.tsx: Purpose
+
+## Usage Example
+```typescript
+// code example
+```
+
+## Implementation Notes
+- Key decisions
+- Performance considerations
+DOCS
+
+# Stage and commit documentation
+git add src/component-name/README.md
+git commit -m "docs: add README for component-name"
+
+# Then merge to develop
+git checkout develop
+git merge feature/component-name
+````
+
+**README Contents:**
+- What code does
+- File explanations
+- Usage examples
+- Key implementation decisions
+- Performance notes
+
+**Purpose:** Zero cognitive load for collaborators and future self.
