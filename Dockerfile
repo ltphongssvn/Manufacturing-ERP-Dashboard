@@ -1,5 +1,5 @@
 # /Dockerfile
-# Multi-stage build for React + Vite app with Railway dynamic port
+# Multi-stage build with Railway port handling
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
@@ -8,7 +8,8 @@ COPY . .
 RUN npm run build
 
 FROM nginx:alpine
+RUN apk add --no-cache gettext
 COPY --from=builder /app/dist /usr/share/nginx/html
 COPY nginx.conf.template /etc/nginx/templates/default.conf.template
-EXPOSE ${PORT}
-CMD ["sh", "-c", "envsubst '${PORT}' < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+EXPOSE 8080
+CMD ["sh", "-c", "export PORT=${PORT:-8080} && envsubst '${PORT}' < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
