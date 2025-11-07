@@ -1,0 +1,16 @@
+# /docker-compose.yml
+# Local development environment
+
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: manufacturing-erp-dashboard
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
