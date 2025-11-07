@@ -93,3 +93,48 @@ Each directory contains README.md explaining:
 ## Author
 
 Built following Clean Code principles and React best practices from "Learn React with TypeScript" (Third Edition).
+
+## Deployment
+
+### Production URL
+🚀 **Live:** https://manufacturing-erp-dashboard.thanhphongle.net
+
+### Railway Deployment Configuration
+Successfully deployed on Railway with dynamic port binding solution.
+
+#### Issue Resolved (Nov 7, 2025)
+- **Problem:** 502 Bad Gateway - nginx hardcoded to port 80 incompatible with Railway's dynamic PORT assignment
+- **Solution:** Template-based nginx configuration with runtime environment substitution
+
+#### Key Files
+- `Dockerfile` - Multi-stage build with Alpine nginx
+- `nginx.conf.template` - Dynamic port configuration using `${PORT}`
+- Railway environment variable: `PORT=8080`
+
+#### Architecture Changes
+```
+FROM nginx:alpine
+RUN apk add --no-cache gettext
+COPY nginx.conf.template /etc/nginx/templates/default.conf.template
+CMD ["sh", "-c", "export PORT=${PORT:-8080} && envsubst '${PORT}' < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+```
+
+#### Deployment Commands
+```bash
+railway variables --set "PORT=8080"
+railway up --detach
+railway logs --tail
+```
+
+### Build & Deploy
+```bash
+npm run build          # Creates dist/ folder
+git push origin main   # Auto-deploys via Railway GitHub integration
+```
+
+### Infrastructure
+- **Platform:** Railway
+- **Container:** nginx:alpine
+- **Build:** Vite production build
+- **DNS:** CNAME to railway.app domain
+- **SSL:** Automatic HTTPS provisioning
