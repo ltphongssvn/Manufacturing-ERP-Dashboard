@@ -35,9 +35,10 @@ export function ProductionLineMonitor({
       typeStats.avg += reading.value;
       
       if (reading.type === 'quality') {
-        typeStats.min = Math.min(typeStats.min, reading.value);
+        stats.quality.min = Math.min(stats.quality.min, reading.value);
       } else {
-        typeStats.max = Math.max(typeStats.max, reading.value);
+        const otherStats = stats[reading.type as "temperature" | "pressure" | "speed" | "vibration"];
+        otherStats.max = Math.max(otherStats.max, reading.value);
       }
       
       if (reading.status === 'critical') {
