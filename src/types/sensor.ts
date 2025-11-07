@@ -1,5 +1,4 @@
 // /src/types/sensor.ts
-
 export interface SensorReading {
   id: string;
   plantId: string;

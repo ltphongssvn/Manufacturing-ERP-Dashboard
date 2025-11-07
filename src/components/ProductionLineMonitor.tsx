@@ -1,7 +1,7 @@
 // /src/components/ProductionLineMonitor.tsx
 
 import { useMemo, useCallback } from 'react';
-import { ProductionLine, SensorReading } from '../types/sensor';
+import type { ProductionLine, SensorReading } from '../types/state';
 
 interface ProductionLineMonitorProps {
   line: ProductionLine;

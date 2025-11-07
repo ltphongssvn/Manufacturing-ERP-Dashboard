@@ -1,7 +1,8 @@
 // /src/hooks/useDashboardReducer.ts
 
 import { useReducer } from 'react';
-import { DashboardState, DashboardAction, initialDashboardState } from '../types/state';
+import { initialDashboardState } from '../types/state';
+import type { DashboardState, DashboardAction } from '../types/state';
 
 /**
  * Reducer for multi-plant ERP dashboard state management.

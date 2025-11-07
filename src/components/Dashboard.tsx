@@ -1,5 +1,4 @@
 // /src/components/Dashboard.tsx
-
 import { useEffect, useMemo, useCallback } from 'react';
 import { useDashboardReducer } from '../hooks/useDashboardReducer';
 import { generatePlants, generateSensorReadings, generateAlerts } from '../utils/mockDataGenerator';
@@ -12,11 +11,17 @@ import { ProductionLineMonitor } from './ProductionLineMonitor';
  * - Real-time monitoring with useReducer, useMemo, useCallback
  */
 export function Dashboard() {
+  console.log('Dashboard component rendering');
+  
   const [state, dispatch] = useDashboardReducer();
+  
+  console.log('Dashboard state:', state);
 
   // Initialize plants on mount
   useEffect(() => {
+    console.log('useEffect: Initializing plants');
     const plants = generatePlants();
+    console.log('Generated plants:', plants);
     dispatch({ type: 'SET_PLANTS', payload: plants });
   }, [dispatch]);
 
@@ -84,6 +89,7 @@ export function Dashboard() {
   }, [dispatch]);
 
   if (state.isLoading) {
+    console.log('Showing loading state');
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-xl">Loading Manufacturing Dashboard...</div>
@@ -91,13 +97,15 @@ export function Dashboard() {
     );
   }
 
+  console.log('Rendering full dashboard');
+  
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       {/* Header */}
       <header className="mb-6">
         <h1 className="text-3xl font-bold mb-2">Manufacturing ERP Dashboard</h1>
         <p className="text-gray-600">
-          Real-time monitoring • {globalStats.totalSensors.toLocaleString()} sensors • 
+          Real-time monitoring • {globalStats.totalSensors.toLocaleString()} sensors •
           Last update: {new Date(state.lastUpdate).toLocaleTimeString()}
         </p>
       </header>
